@@ -1,0 +1,98 @@
+.header {
+    padding: 10px;
+    position: fixed; /* Se queda fija arriba */
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; 
+    height: 50px;
+    
+    
+  /* Gradiente retro rosa → azul */
+  background: #edaef9; 
+  background: -moz-linear-gradient(left, #edaef9 0%, #81b1fa 100%);
+  background: -webkit-linear-gradient(left, #edaef9 0%, #81b1fa 100%);
+  background: linear-gradient(to right, #edaef9 0%, #81b1fa 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#edaef9', endColorstr='#81b1fa', GradientType=1);
+  }
+  
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(to bottom, white 40, gray 50%, black 60%);
+    font-family: 'Nunito Sans', sans-serif;
+      
+      
+  }
+  
+  /* Los botones dentro */
+  .header button{
+    color: black; /* Verde retro */
+    text-decoration: none;
+    border: none;
+    border-radius: 50px;
+    margin: 10px;
+    padding: 15px 20px;
+    transition: 0.3s;
+    background-color: white;
+    text-align: center;
+    width: auto;
+    flex: none;
+  }
+  
+  /* Efecto al pasar el mouse */
+  .header button:hover {
+    transform: scale(1.1);
+    color: yellowgreen;
+  }
+
+main {
+    padding-top: 100px; 
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .tarjetas {
+    display: flex;
+    flex-wrap: wrap; /* columnas una debajo de otra */
+    gap: 20px;              /* espacio entre tarjetas */
+    padding: 20px;
+  }
+  
+  .tarjeta {
+    display: flex;
+    flex-direction: column;
+    width: 300;
+    background: whitesmoke; /* fondo leve */
+    border-radius: 15px;
+    box-shadow: 0px 8px 15px rgba(0,0,0,0.3);
+    padding: 15px;
+    align-items: center;
+    transition: 0.3s;    /* centra verticalmente */
+  }
+  
+  .tarjeta img {
+    width: 150px;           /* tamaño de la imagen */
+    height: 150px;
+    object-fit: contain;      /* recorta la imagen si es necesario */
+    border-radius: 10px;
+    margin-right: 20px;     /* espacio entre imagen y descripción */
+  }
+  
+  .descripcion h3 {
+    margin: 0 0 5px 0;
+    color: black;
+  }
+  
+  .descripcion p {
+    margin: 0;
+    color: black;
+  }
+
+  .tarjeta:hover {
+    transform: scale(1.05);
+    background-color: #282828;
+  }
+  
