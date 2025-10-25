@@ -5,6 +5,17 @@ const statusLabel = document.getElementById("status");
 // Cambia esta URL por la de tu API expuesta con ngrok
 const apiBaseUrl = "https://8b6cfc1a3b20.ngrok-free.app";
 
+function cleanFileName(name) {
+    // Encontrar la posición del último punto
+    const lastDot = name.lastIndexOf(".");
+    if (lastDot !== -1) {
+        // Cortar todo después del último punto (sin incluirlo)
+        name = name.substring(0, lastDot);
+    }
+    // Reemplazar caracteres inválidos si quieres
+    return name.replace(/[\\\/:*?"<>|]/g, "").trim();
+}
+
 btn.addEventListener("click", async () => {
     const youtubeUrl = urlInput.value.trim();
     if (!youtubeUrl) {
@@ -37,6 +48,8 @@ btn.addEventListener("click", async () => {
             fileName = disposition.split("filename=")[1].replace(/"/g, "");
         }
 
+        fileName = cleanFileName(fileName) + ".mp3"; 
+
         // Crear link temporal para descargar
         const downloadUrl = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -51,5 +64,6 @@ btn.addEventListener("click", async () => {
         statusLabel.textContent = "Error: " + err.message;
     }
 });
+
 
 
