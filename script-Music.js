@@ -5,15 +5,32 @@ const statusLabel = document.getElementById("status");
 // Cambia esta URL por la de tu API expuesta con ngrok
 const apiBaseUrl = "https://8b6cfc1a3b20.ngrok-free.app";
 
-function cleanFileName(name) {
-    // Encontrar la posición del último punto
-    const lastDot = name.lastIndexOf(".");
-    if (lastDot !== -1) {
-        // Cortar todo después del último punto (sin incluirlo)
-        name = name.substring(0, lastDot);
+function getCleanFileName(disposition) {
+    if (!disposition) return "cancion.mp3";
+
+    let fileName = "cancion.mp3";
+
+    // Intentar extraer filename* (RFC 5987)
+    const rfc5987 = disposition.match(/filename\*\s*=\s*[^']*''(.+)$/);
+    if (rfc5987) {
+        fileName = decodeURIComponent(rfc5987[1]); // decodifica %20, etc.
+    } else {
+        // fallback: buscar filename normal
+        const simple = disposition.match(/filename="?(.+?)"?($|;)/);
+        if (simple) fileName = simple[1];
     }
-    // Reemplazar caracteres inválidos si quieres
-    return name.replace(/[\\\/:*?"<>|]/g, "").trim();
+
+    // Cortar todo después del último punto
+    const lastDot = fileName.lastIndexOf(".");
+    if (lastDot !== -1) {
+        fileName = fileName.substring(0, lastDot);
+    }
+
+    // Limpiar caracteres inválidos
+    fileName = fileName.replace(/[\\\/:*?"<>|]/g, "").trim();
+
+    // Agregar extensión mp3
+    return fileName;
 }
 
 btn.addEventListener("click", async () => {
@@ -39,16 +56,8 @@ btn.addEventListener("click", async () => {
 
         // Obtener el archivo como blob
         const blob = await response.blob();
-
-        // Obtener el nombre real del archivo desde los headers
         const disposition = response.headers.get("Content-Disposition");
-        let fileName = "cancion.mp3"; // fallback por si no viene el header
-
-        if (disposition && disposition.includes("filename=")) {
-            fileName = disposition.split("filename=")[1].replace(/"/g, "");
-        }
-
-        fileName = cleanFileName(fileName) + ".mp3"; 
+        const fileName = getCleanFileName(disposition);
 
         // Crear link temporal para descargar
         const downloadUrl = URL.createObjectURL(blob);
@@ -64,6 +73,7 @@ btn.addEventListener("click", async () => {
         statusLabel.textContent = "Error: " + err.message;
     }
 });
+
 
 
 
